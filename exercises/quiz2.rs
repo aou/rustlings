@@ -40,11 +40,9 @@ mod my_module {
                     output.push(string.trim().to_string());
                 }
                 Command::Append(usize) => {
-                    let mut counter = *usize;
                     let mut string = string.to_string();
-                    while counter != 0 {
+                    for i in 0..*usize as i32 {
                         string.push_str("bar");
-                        counter -= 1;
                     }
                     output.push(string);
                 }
