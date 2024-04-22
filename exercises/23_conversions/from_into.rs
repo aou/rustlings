@@ -7,6 +7,8 @@
 // Execute `rustlings hint from_into` or use the `hint` watch subcommand for a
 // hint.
 
+// I AM NOT DONE
+
 #[derive(Debug)]
 struct Person {
     name: String,
@@ -42,28 +44,26 @@ impl Default for Person {
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
-        if s.len() == 0 {
-            Person::default()
-        } else {
-            let s_r = s.split_once(',');
-            match s_r {
-                None => Person::default(),
-                Some((name, age_str)) => {
-                    if name.len() == 0 {
-                        Person::default()
-                    } else {
-                        let age_r = age_str.parse::<usize>();
-                        match age_r {
-                            Ok(age) => Person {
-                                name: name.to_string(),
-                                age: age,
-                            },
-                            Err(_) => Person::default(),
+        let person = {
+            if s.len() == 0 {
+                Person::default()
+            } else {
+                s.split_once(',')
+                    .map_or(Person::default(), |(name, age_str)| {
+                        if name.len() == 0 {
+                            Person::default()
+                        } else {
+                            age_str
+                                .parse::<usize>()
+                                .map_or(Person::default(), |age| Person {
+                                    name: name.to_string(),
+                                    age: age,
+                                })
                         }
-                    }
-                }
+                    })
             }
-        }
+        };
+        person
     }
 }
 
